@@ -1,6 +1,7 @@
 package com.example.flixster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,8 +76,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
             // load image
             int corner_radius = 30;
+            String imageURL;
+            int placeholder;
+            int orientation = context.getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                imageURL = movie.getPosterPath();
+                placeholder = R.drawable.flicks_movie_placeholder;
+            } else {
+                imageURL = movie.getBackdropPath();
+                placeholder = R.drawable.flicks_backdrop_placeholder;
+            }
+
             Glide.with(context)
-                    .load(movie.getPosterPath())
+                    .load(imageURL)
+                    .placeholder(placeholder)
                     .transform(new RoundedCorners(corner_radius))
                     .into(ivPoster);
         }
